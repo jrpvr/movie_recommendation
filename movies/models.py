@@ -7,8 +7,24 @@ class Movie(models.Model):
     year = models.IntegerField(null=True, blank=True)
     rating = models.FloatField(null=True, blank=True)
     poster = models.URLField()
-    liked = models.BooleanField(default=False)
     description = models.TextField(blank=True)
-    liked_by = models.ManyToManyField(User, blank=True)
+
+    # ❌ REMOVE this (not needed anymore)
+    # liked = models.BooleanField(default=False)
+
+    # ❤️ Like system (user-based)
+    liked_by = models.ManyToManyField(
+        User,
+        related_name='liked_movies',
+        blank=True
+    )
+
+    # 📌 Watchlist system (NEW - REQUIRED)
+    watchlisted_by = models.ManyToManyField(
+        User,
+        related_name='watchlist',
+        blank=True
+    )
+
     def __str__(self):
         return self.title
